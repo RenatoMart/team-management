@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+
+  memberships   RoomMember[]
+  assignedTasks Task[]        @relation("TaskAssignee")
+  deliverables  Deliverable[]
+
+  @@map("users")
+}
+
+model Room {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  examDate    DateTime?
+  createdAt   DateTime  @default(now())
+
+  members      RoomMember[]
+  columns      Column[]
+  tasks        Task[]
+  deliverables Deliverable[]
+
+  @@map("rooms")
+}
+
+enum RoomRole {
+  OWNER
+  MEMBER
+}
+
+model RoomMember {
+  id       String   @id @default(cuid())
+  role     RoomRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId String
+
+  @@unique([userId, roomId])
+  @@map("room_members")
+}
+
+model Column {
+  id     String @id @default(cuid())
+  name   String
+  order  Int
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId String
+  tasks  Task[]
+
+  @@unique([roomId, order])
+  @@map("columns")
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  tag         String?
+  dueDate     DateTime?
+  priority    Priority  @default(MEDIUM)
+  order       Int
+
+  room       Room    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId     String
+  column     Column  @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId   String
+  assignee   User?   @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  assigneeId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([columnId, order])
+  @@map("tasks")
+}
+
+model Deliverable {
+  id         String   @id @default(cuid())
+  title      String
+  fileUrl    String
+  fileType   String?
+  uploadedAt DateTime @default(now())
+
+  room         Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId       String
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+  uploadedById String
+
+  @@map("deliverables")
+}

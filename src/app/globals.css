@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-sans: var(--font-jakarta);
+	--font-mono: var(--font-plex-mono);
+
+	--color-canvas: #eef1f7;
+	--color-surface: #ffffff;
+	--color-surface-muted: #f6f7fb;
+	--color-border: #e4e7f0;
+
+	--color-ink: #171b2e;
+	--color-ink-soft: #5b6178;
+	--color-ink-faint: #6d7592;
+
+	--color-brand: #3457d5;
+	--color-brand-dark: #253e9e;
+	--color-brand-soft: #e7ecfd;
+
+	--color-high: #ce1d23;
+	--color-high-soft: #fce4e4;
+	--color-medium: #996207;
+	--color-medium-soft: #fdf0da;
+	--color-low: #24749a;
+	--color-low-soft: #e2f2f9;
+
+	--color-done: #1a7a52;
+	--color-done-soft: #ddf3e8;
+
+	--color-tag-estrategia: #6842ff;
+	--color-tag-estrategia-soft: #ece7ff;
+	--color-tag-tecnologia: #3457d5;
+	--color-tag-tecnologia-soft: #e7ecfd;
+	--color-tag-mercado: #94621e;
+	--color-tag-mercado-soft: #faedd9;
+	--color-tag-presentacion: #b83867;
+	--color-tag-presentacion-soft: #fbe4ed;
+}
+
+body {
+	background-color: var(--color-canvas);
+	color: var(--color-ink);
+}
