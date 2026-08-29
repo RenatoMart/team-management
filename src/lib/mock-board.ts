@@ -3,7 +3,7 @@ import type { BoardRoom } from './board-types';
 const renato = {
 	id: 'u_renato',
 	name: 'Renato',
-	email: 'reagui667@gmail.com',
+	email: 'example1@gmail.com',
 	passwordHash: '',
 	avatarUrl: null,
 	createdAt: new Date(),
@@ -11,7 +11,7 @@ const renato = {
 const fabricio = {
 	id: 'u_fabricio',
 	name: 'Fabricio Zamora',
-	email: 'fabricio.zamora@uni.edu.pe',
+	email: 'example2@gmail.com',
 	passwordHash: '',
 	avatarUrl: null,
 	createdAt: new Date(),
@@ -19,7 +19,7 @@ const fabricio = {
 const juanCarlos = {
 	id: 'u_juancarlos',
 	name: 'Juan Carlos Luján',
-	email: 'juancarlos.lujan@uni.edu.pe',
+	email: 'example3@gmail.com',
 	passwordHash: '',
 	avatarUrl: null,
 	createdAt: new Date(),
@@ -27,7 +27,7 @@ const juanCarlos = {
 const rodrigo = {
 	id: 'u_rodrigo',
 	name: 'Rodrigo Malpartida',
-	email: 'rodrigo.malpartida@uni.edu.pe',
+	email: 'example4@gmail.com',
 	passwordHash: '',
 	avatarUrl: null,
 	createdAt: new Date(),

@@ -11,38 +11,38 @@ async function main() {
 
 	const [renato, fabricio, juanCarlos, rodrigo] = await Promise.all([
 		prisma.user.upsert({
-			where: { email: 'reagui667@gmail.com' },
+			where: { email: 'example1@gmail.com' },
 			update: {},
 			create: {
 				name: 'Renato',
-				email: 'reagui667@gmail.com',
+				email: 'example1@gmail.com',
 				passwordHash,
 			},
 		}),
 		prisma.user.upsert({
-			where: { email: 'fabricio.zamora@uni.edu.pe' },
+			where: { email: 'example2@gmail.com' },
 			update: {},
 			create: {
 				name: 'Fabricio José Zamora Albán',
-				email: 'fabricio.zamora@uni.edu.pe',
+				email: 'example2@gmail.com',
 				passwordHash,
 			},
 		}),
 		prisma.user.upsert({
-			where: { email: 'juancarlos.lujan@uni.edu.pe' },
+			where: { email: 'example3@gmail.com' },
 			update: {},
 			create: {
 				name: 'Juan Carlos Luján Meza',
-				email: 'juancarlos.lujan@uni.edu.pe',
+				email: 'example3@gmail.com',
 				passwordHash,
 			},
 		}),
 		prisma.user.upsert({
-			where: { email: 'rodrigo.malpartida@uni.edu.pe' },
+			where: { email: 'example4@gmail.com' },
 			update: {},
 			create: {
 				name: 'Rodrigo André Malpartida Lara',
-				email: 'rodrigo.malpartida@uni.edu.pe',
+				email: 'example4@gmail.com',
 				passwordHash,
 			},
 		}),

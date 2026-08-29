@@ -1,7 +1,7 @@
 import { db } from './db';
 import { mockBoard } from './mock-board';
 
-const CURRENT_USER_EMAIL = 'reagui667@gmail.com';
+const CURRENT_USER_EMAIL = 'example1@gmail.com';
 
 export async function getCurrentUser() {
 	if (process.env.DEMO_MODE === 'true') {
