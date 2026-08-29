@@ -1,58 +1,73 @@
-# Next.js + TypeScript + Anime.js (60FPS Architecture) 🚀
+# Legajo
 
-This is a high-performance boilerplate template for building modern web applications using **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, and **Anime.js (v4)**.
+**Plantilla de sistema de gestión de equipos y proyectos**, construida con Next.js (App Router), TypeScript, Prisma y Tailwind CSS.
 
-Designed with strict Web Vitals and 60FPS animation principles in mind.
+Pensada como punto de partida para coordinar equipos de trabajo: salas de proyecto, tableros Kanban con drag-and-drop, entregables con subida de archivos, y gestión de miembros — todo con datos reales, no mockups estáticos.
 
-## 🌟 Key Features
+![Recorrido por Legajo: Resumen, Tablero con drag-and-drop, Entregables y Equipo](docs/demo.gif)
 
-- **Strict 60FPS Animations**: Only animates GPU-accelerated properties (`transform` and `opacity`) using Anime.js v4.
-- **Main Thread Protection**: Follows architectural best practices to prevent blocking the main thread.
-- **Hydration Safe**: Configured to prevent React hydration errors gracefully, even with browser extensions.
-- **Tailwind Strict Mode**: Avoids `transition-all` and costly repaints by strictly transitioning necessary properties.
-- **Pre-configured Folder Structure**: Includes `components/ui`, `components/layout`, `hooks`, `types`, and `lib` directories.
+## 🌟 Características
 
-## 📁 Project Structure
+- **Salas de proyecto**: cada sala agrupa un equipo, sus tareas, entregables y fecha límite.
+- **Tablero Kanban** con `dnd-kit`, respaldado por Server Actions + Prisma (el arrastre persiste de verdad, con actualización optimista vía `useOptimistic`).
+- **Entregables**: subida de archivos con Server Actions, almacenamiento local en `public/uploads/`.
+- **Equipo**: roles, carga de trabajo por integrante, resumen de avance.
+- **Modo demo**: `DEMO_MODE=true` sirve datos de ejemplo sin necesitar Postgres — útil para desplegar una demo pública o desarrollar el front sin base de datos.
+- **Animaciones deliberadas** con Anime.js v4 (solo `opacity`/`transform`, respeta `prefers-reduced-motion`).
+
+## 📁 Estructura del proyecto
 
 ```bash
 src/
-├── app/             # Next.js App Router (pages, layout, globals.css)
-├── components/      
-│   ├── layout/      # Layout components (Header, Footer, etc.)
-│   └── ui/          # Reusable UI components
-├── hooks/           # Custom React hooks
-├── lib/             # Shared utilities and configurations
-├── types/           # Global TypeScript definitions
-└── utils/           
-    └── anime-runner.ts # Anime.js animation wrappers
+├── app/                      # Rutas (App Router)
+│   └── rooms/[roomId]/       # Resumen, Tablero, Entregables, Equipo por sala
+├── actions/                  # Server Actions (tareas, entregables, salas)
+├── components/
+│   ├── board/                # Tablero Kanban (dnd-kit)
+│   ├── dashboard/             # Sidebar, tarjetas, widgets del panel
+│   └── motion/                # Wrapper de animaciones de entrada
+├── lib/                      # Prisma client, queries, helpers
+└── utils/anime-runner.ts     # Utilidades de animación (Anime.js v4)
+
+prisma/
+├── schema.prisma             # Room, User, Task, Column, Deliverable...
+└── seed.ts                   # Datos de ejemplo
 ```
 
-## 🚀 Getting Started
+## 🚀 Cómo correrlo
 
-1. **Install dependencies:**
+1. **Instala dependencias:**
+
    ```bash
    npm install
-   # or
-   pnpm install
-   # or
-   yarn install
    ```
 
-2. **Run the development server:**
+2. **Opción rápida (sin base de datos):** deja `DEMO_MODE="true"` en tu `.env` y corre:
+
    ```bash
    npm run dev
    ```
 
-3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The main page includes a test component showcasing a strictly composed 60FPS GPU-accelerated animation using Anime.js.
+3. **Opción completa (con Postgres):**
 
-## 🛠️ Performance Directives
+   ```bash
+   cp .env.example .env      # ajusta DATABASE_URL si hace falta
+   npm run db:up              # levanta Postgres con docker compose
+   npm run db:migrate          # crea las tablas
+   npm run db:seed             # carga datos de ejemplo
+   npm run dev
+   ```
 
-If you intend to use this template, please adhere to these rendering and animation rules:
+4. Abre [http://localhost:3000](http://localhost:3000).
 
-- **Reflows vs Repaints**: NEVER animate layout properties like `width`, `height`, `top`, `left`, `margin`, or `padding`. Always use `transform` (`scale`, `translate`) and `opacity`.
-- **GPU Acceleration**: Make use of Tailwind's `transform-gpu` and `will-change-*` utility classes for frequently animated elements.
-- **Code-Splitting**: Load heavy components dynamically via `next/dynamic` or `React.lazy()` to protect the main thread and achieve a fast LCP (Largest Contentful Paint).
+Otros scripts útiles: `npm run db:studio` (Prisma Studio para ver/editar datos), `npm run lint`, `npm run build`.
 
-## 📄 License
+## 🛠️ Notas de arquitectura
 
-MIT License. Feel free to use this boilerplate for your projects!
+- **Server Actions** manejan toda la escritura (crear salas, mover tareas, subir entregables) — sin API routes intermedias.
+- **Animaciones**: solo se anima `transform`/`opacity` (GPU-friendly); evita `transition-all`.
+- Este repo no trae autenticación todavía — el "usuario actual" está fijado en `src/lib/current-user.ts` como siguiente paso natural antes de producción.
+
+## 📄 Licencia
+
+MIT. Úsalo como base para tu propio sistema de gestión.
